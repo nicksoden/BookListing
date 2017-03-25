@@ -15,10 +15,12 @@ public class MainActivity extends Activity {
     EditText eText;
     Button btn;
     TextView focuser;
+    TextView deleteText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        deleteText = (TextView) findViewById(R.id.blurb);
         focuser= (TextView) findViewById(R.id.textView1);
         eText = (EditText) findViewById(R.id.edittext);
         btn = (Button) findViewById(R.id.button);
@@ -31,6 +33,7 @@ public class MainActivity extends Activity {
                 focuser.setFocusable(true);
                 focuser.setFocusableInTouchMode(true);
                 focuser.requestFocus();
+                deleteText.setVisibility(View.GONE);
             }
         });
 

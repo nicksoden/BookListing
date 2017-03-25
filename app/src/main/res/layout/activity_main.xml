@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,35 +6,51 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     tools:context=".MainActivity" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="0dp"
+        android:textSize="20sp"
         android:text="@string/example_edittext" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="130dp"
-        android:text="@string/show_the_text" />
 
     <EditText
         android:id="@+id/edittext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="61dp"
-        android:ems="10"
-        android:text="@string/enter_text" android:inputType="text" />
+        android:text="@string/enter_text"
+        android:inputType="text"
+        android:maxLines="1"
+        android:hint="Enter search here"
+        android:maxLength="50"
+        android:maxWidth="100dip"
+        android:textColorHint="@drawable/selector"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_the_text" />
+
+    <TextView
+        android:id="@+id/blurb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This app allows you to search google books. Please enter an author name or title."/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/list"
+        android:orientation = "vertical"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
+
+
+
+</LinearLayout>
