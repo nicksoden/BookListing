@@ -4,5 +4,5 @@
     <string name="app_name_title">Google Book Search</string>
     <string name="search">Search</string>
     <string name="hint">Enter search text here</string>
-    <string name="blurb">This app allows you to search google books. Please enter an author name or title.</string>
+    <string name="blurb">This app allows you to search Google Books. Please enter an author name or title.</string>
 </resources>

@@ -13,13 +13,11 @@ public class Book {
 
     private String mUrl;
 
-
     public Book(String title, String author, String url) {
         mTitle = title;
         mAuthor = author;
         mUrl = url;
     }
-
 
     public String getTitle() {
         return mTitle;
@@ -32,4 +30,5 @@ public class Book {
     public String getUrl(){
         return mUrl;
     }
+
 }

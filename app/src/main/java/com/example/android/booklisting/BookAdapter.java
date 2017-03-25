@@ -22,7 +22,6 @@ public class BookAdapter extends ArrayAdapter<Book> {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.booklisting_list_item, parent, false);
         }
-
         Book currentBook = getItem(position);
 
         TextView titleOfBook = (TextView) listItemView.findViewById(R.id.title);

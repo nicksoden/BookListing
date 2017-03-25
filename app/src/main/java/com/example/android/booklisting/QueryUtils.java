@@ -113,6 +113,7 @@ public final class QueryUtils {
                 String authors ="";
                 JSONObject currentBook = booksArray.getJSONObject(i);
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
+
                 String urler = volumeInfo.getString("infoLink");
                 String title = volumeInfo.getString("title");
                 JSONArray authorArray = volumeInfo.getJSONArray("authors");
@@ -123,7 +124,6 @@ public final class QueryUtils {
                     authors = authors + author1 + "\n";
                 }
                 Book book = new Book(title, authors, urler);
-
                 books.add(book);
             }
 
