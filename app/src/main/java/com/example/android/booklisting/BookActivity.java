@@ -2,6 +2,7 @@ package com.example.android.booklisting;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,31 +14,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookActivity extends AppCompatActivity {
     EditText eText;
     Button btn;
     TextView focuser;
     TextView deleteText;
-    public static final String LOG_TAG = BookActivity.class.getName();
+
+    private static final String LOG_TAG = BookActivity.class.getName();
+
+    /** URL for earthquake data from the USGS dataset */
+    private static final String GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes?q=android";
+
+    /** Adapter for the list of earthquakes */
+    private BookAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get the list of earthquakes from {@link QueryUtils}
-        ArrayList<Book> books = QueryUtils.extractBooks();
 
         // Find a reference to the {@link ListView} in the layout
         ListView bookListView = (ListView) findViewById(R.id.list);
 
-        // Create a new adapter that takes the list of earthquakes as input
-        final BookAdapter adapter = new BookAdapter(this, books);
+        // Create a new adapter that takes an empty list of earthquakes as input
+        mAdapter = new BookAdapter(this, new ArrayList<Book>());
+
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        bookListView.setAdapter(adapter);
+        bookListView.setAdapter(mAdapter);
+
         deleteText = (TextView) findViewById(R.id.blurb);
         focuser= (TextView) findViewById(R.id.textView1);
         eText = (EditText) findViewById(R.id.edittext);
@@ -54,6 +63,33 @@ public class BookActivity extends AppCompatActivity {
                 deleteText.setVisibility(View.GONE);
             }
         });
+
+        // Start the AsyncTask to fetch the earthquake data
+        BookAsyncTask task = new BookAsyncTask();
+        task.execute(GOOGLE_BOOKS_URL);
+
+    }
+
+    private class BookAsyncTask extends AsyncTask<String, Void, List<Book>> {
+        @Override
+        protected List<Book> doInBackground(String... urls) {
+            // Don't perform the request if there are no URLs, or the first URL is null
+            if (urls.length < 1 || urls[0] == null) {
+                return null;
+            }
+            List<Book> result = QueryUtils.fetchBookData(urls[0]);
+            return result;
+        }
+        @Override
+        protected void onPostExecute(List<Book> data) {
+            // Clear the adapter of previous earthquake data
+            mAdapter.clear();
+            // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+            // data set. This will trigger the ListView to update.
+            if (data != null && !data.isEmpty()) {
+                mAdapter.addAll(data);
+            }
+        }
 
     }
 
