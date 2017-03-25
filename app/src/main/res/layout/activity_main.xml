@@ -1,15 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
-    tools:context=".MainActivity" >
+    tools:context=".BookActivity" >
 
     <TextView
         android:id="@+id/textView1"
@@ -43,14 +41,15 @@
         android:layout_height="wrap_content"
         android:text="This app allows you to search google books. Please enter an author name or title."/>
 
-    <ListView
+
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list"
-        android:orientation = "vertical"
-        android:divider="@null"
-        android:dividerHeight="0dp"/>
-
-
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        />
 
 </LinearLayout>
