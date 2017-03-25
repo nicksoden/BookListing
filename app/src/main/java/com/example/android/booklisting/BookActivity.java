@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +23,12 @@ public class BookActivity extends AppCompatActivity {
     Button btn;
     TextView focuser;
     TextView deleteText;
+    String str;
 
     private static final String LOG_TAG = BookActivity.class.getName();
 
     /** URL for earthquake data from the USGS dataset */
-    private static final String GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes?q=android";
+    String GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes?q=";
 
     /** Adapter for the list of earthquakes */
     private BookAdapter mAdapter;
@@ -35,13 +38,11 @@ public class BookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         // Find a reference to the {@link ListView} in the layout
         ListView bookListView = (ListView) findViewById(R.id.list);
 
         // Create a new adapter that takes an empty list of earthquakes as input
         mAdapter = new BookAdapter(this, new ArrayList<Book>());
-
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -49,11 +50,15 @@ public class BookActivity extends AppCompatActivity {
 
         deleteText = (TextView) findViewById(R.id.blurb);
         focuser= (TextView) findViewById(R.id.textView1);
+
         eText = (EditText) findViewById(R.id.edittext);
         btn = (Button) findViewById(R.id.button);
+
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String str = eText.getText().toString();
+                GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+                str = eText.getText().toString();
+                GOOGLE_BOOKS_URL += str;
                 Toast msg = Toast.makeText(getBaseContext(),str,Toast.LENGTH_LONG);
                 msg.show();
                 hideSoftKeyboard(BookActivity.this, v); // MainActivity is the name of the class and v// is the View parameter used in the button listener method onClick.
@@ -61,12 +66,19 @@ public class BookActivity extends AppCompatActivity {
                 focuser.setFocusableInTouchMode(true);
                 focuser.requestFocus();
                 deleteText.setVisibility(View.GONE);
+                BookAsyncTask task = new BookAsyncTask();
+                task.execute(GOOGLE_BOOKS_URL);
+                Log.v("worked", GOOGLE_BOOKS_URL);
+
             }
         });
 
         // Start the AsyncTask to fetch the earthquake data
-        BookAsyncTask task = new BookAsyncTask();
-        task.execute(GOOGLE_BOOKS_URL);
+        /*BookAsyncTask task = new BookAsyncTask();*/
+
+        /*if (searched){
+            task.execute(GOOGLE_BOOKS_URL);
+        }*/
 
     }
 

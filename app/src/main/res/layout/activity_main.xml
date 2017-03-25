@@ -13,32 +13,42 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:textSize="20sp"
+        android:textSize="25sp"
+        android:layout_marginTop = "16dp"
+        android:layout_gravity="center"
         android:text="@string/example_edittext" />
 
     <EditText
         android:id="@+id/edittext"
+        android:inputType="textNoSuggestions"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/enter_text"
-        android:inputType="text"
         android:maxLines="1"
         android:hint="Enter search here"
         android:maxLength="50"
         android:maxWidth="100dip"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="16dp"
         android:textColorHint="@drawable/selector"/>
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/show_the_text" />
+        android:text="@string/show_the_text"
+        android:layout_marginLeft= "16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"/>
 
     <TextView
         android:id="@+id/blurb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+
         android:text="This app allows you to search google books. Please enter an author name or title."/>
 
 
