@@ -38,16 +38,11 @@ public class BookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ListView bookListView = (ListView) findViewById(R.id.list);
-
         mAdapter = new BookAdapter(this, new ArrayList<Book>());
-
         bookListView.setAdapter(mAdapter);
-
         deleteText = (TextView) findViewById(R.id.blurb);
         focuser = (TextView) findViewById(R.id.textView1);
-
         eText = (EditText) findViewById(R.id.edittext);
         btn = (Button) findViewById(R.id.button);
 
@@ -58,39 +53,26 @@ public class BookActivity extends AppCompatActivity {
                 GOOGLE_BOOKS_URL += str;
                 Toast msg = Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG);
                 msg.show();
-                hideSoftKeyboard(BookActivity.this, v); // MainActivity is the name of the class and v// is the View parameter used in the button listener method onClick.
+                hideSoftKeyboard(BookActivity.this, v);
                 focuser.setFocusable(true);
                 focuser.setFocusableInTouchMode(true);
                 focuser.requestFocus();
                 deleteText.setVisibility(View.GONE);
                 BookAsyncTask task = new BookAsyncTask();
                 task.execute(GOOGLE_BOOKS_URL);
-
             }
         });
 
-        // Set an item click listener on the ListView, which sends an intent to a web browser
-        // to open a website with more information about the selected earthquake.
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current earthquake that was clicked on
                 Book currentBook = mAdapter.getItem(position);
-
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Uri bookUri = Uri.parse(currentBook.getUrl());
-
-                // Create a new intent to view the earthquake URI
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
-
-                // Send the intent to launch a new activity
                 startActivity(websiteIntent);
             }
         });
-
     }
-
-
 
     private class BookAsyncTask extends AsyncTask<String, Void, List<Book>> {
         @Override
@@ -104,10 +86,7 @@ public class BookActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Book> data) {
-            // Clear the adapter of previous earthquake data
             mAdapter.clear();
-            // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
-            // data set. This will trigger the ListView to update.
             if (data != null && !data.isEmpty()) {
                 mAdapter.addAll(data);
             }

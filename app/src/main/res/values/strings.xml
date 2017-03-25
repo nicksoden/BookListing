@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Book Search</string>
-    <string name="example_edittext">Google Book Search</string>
-    <string name="show_the_text">Search </string>
-    <string name="enter_text"></string>
+    <string name="app_name_title">Google Book Search</string>
+    <string name="search">Search</string>
+    <string name="hint">Enter search text here</string>
+    <string name="blurb">This app allows you to search google books. Please enter an author name or title.</string>
 </resources>
