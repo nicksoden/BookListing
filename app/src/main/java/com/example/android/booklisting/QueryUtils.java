@@ -132,7 +132,7 @@ public final class QueryUtils {
             return null;
             }
 
-        String authors ="";
+
 
         // Create an empty List that we can start adding earthquakes to
         List<Book> books = new ArrayList<>();
@@ -151,7 +151,7 @@ public final class QueryUtils {
 
             // For each earthquake in the earthquakeArray, create an {@link Earthquake} object
             for (int i = 0; i < booksArray.length(); i++) {
-
+                String authors ="";
                 // Get a single earthquake at position i within the list of earthquakes
                 JSONObject currentBook = booksArray.getJSONObject(i);
 
@@ -160,7 +160,7 @@ public final class QueryUtils {
                 // for that earthquake.
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
-
+                String urler = volumeInfo.getString("infoLink");
                 // Extract the value for the key called "mag"
 
                 String title = volumeInfo.getString("title");
@@ -174,9 +174,10 @@ public final class QueryUtils {
                 }
 
 
+
                 // Create a new {@link Earthquake} object with the magnitude, location, time,
                 // and url from the JSON response.
-                Book book = new Book(title, authors);
+                Book book = new Book(title, authors, urler);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 books.add(book);

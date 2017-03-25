@@ -11,15 +11,14 @@ public class Book {
     /** Location of the earthquake */
     private String mAuthor;
 
+    private String mUrl;
 
 
-
-    public Book(String title, String author) {
+    public Book(String title, String author, String url) {
         mTitle = title;
         mAuthor = author;
+        mUrl = url;
     }
-
-
 
 
     public String getTitle() {
@@ -28,5 +27,9 @@ public class Book {
 
     public String getAuthor() {
         return mAuthor;
+    }
+
+    public String getUrl(){
+        return mUrl;
     }
 }
