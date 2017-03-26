@@ -23,6 +23,7 @@ public final class QueryUtils {
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
     private QueryUtils() {
+        throw new AssertionError("No QueryUtils instances for you!");
     }
 
     public static List<Book> fetchBookData(String requestUrl) {
@@ -98,6 +99,7 @@ public final class QueryUtils {
 
     private static List<Book> extractFeatureFromJson(String bookJSON) {
 
+        JSONArray booksArray = new JSONArray();
         if (TextUtils.isEmpty(bookJSON)) {
             return null;
             }
@@ -106,22 +108,31 @@ public final class QueryUtils {
 
         try {
             JSONObject baseJsonResponse = new JSONObject(bookJSON);
-            JSONArray booksArray = baseJsonResponse.getJSONArray("items");
-
+            if(baseJsonResponse.has("items")) {
+                booksArray = baseJsonResponse.getJSONArray("items");
+            }
             for (int i = 0; i < booksArray.length(); i++) {
 
                 String authors ="";
+                String urler = "";
+                String title = "";
                 JSONObject currentBook = booksArray.getJSONObject(i);
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
+                if (volumeInfo.has("infolink")){
+                    urler = volumeInfo.getString("infoLink");
+                }
+                if (volumeInfo.has("title")) {
+                    title = volumeInfo.getString("title");
+                }
 
-                String urler = volumeInfo.getString("infoLink");
-                String title = volumeInfo.getString("title");
-                JSONArray authorArray = volumeInfo.getJSONArray("authors");
-                // added this "final int ..." code because i was get an error "index out of range"
-                final int numberOfItemsInResp = authorArray.length();
-                for(int z = 0; z <numberOfItemsInResp; z++){
-                    String author1 = authorArray.getString(z);
-                    authors = authors + author1 + "\n";
+                if (volumeInfo.has("authors")) {
+                    JSONArray authorArray = volumeInfo.getJSONArray("authors");
+                    // added this "final int ..." code because i was get an error "index out of range"
+                    final int numberOfItemsInResp = authorArray.length();
+                    for (int z = 0; z < numberOfItemsInResp; z++) {
+                        String author1 = authorArray.getString(z);
+                        authors += author1 + "\n";
+                    }
                 }
                 Book book = new Book(title, authors, urler);
                 books.add(book);
@@ -129,6 +140,7 @@ public final class QueryUtils {
 
         } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            return null;
         }
 
         return books;

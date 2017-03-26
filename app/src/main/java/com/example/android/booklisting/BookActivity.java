@@ -3,10 +3,13 @@ package com.example.android.booklisting;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -26,6 +29,8 @@ public class BookActivity extends AppCompatActivity {
     TextView focuser;
     TextView deleteText;
     String str;
+    String noCharacter = "Please enter something before searching";
+    String noInternet = "There is no internet connection";
     String GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes?q=";
     private BookAdapter mAdapter;
 
@@ -46,20 +51,37 @@ public class BookActivity extends AppCompatActivity {
         eText = (EditText) findViewById(R.id.edittext);
         btn = (Button) findViewById(R.id.button);
 
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes?q=";
                 str = eText.getText().toString();
                 GOOGLE_BOOKS_URL += str;
-                Toast msg = Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG);
-                msg.show();
+                if (isNetworkAvailable(this)) {
+                    if (!str.equals("")) {
+                        Toast msg = Toast.makeText(getBaseContext(), str, Toast.LENGTH_LONG);
+                        msg.show();
+                        BookAsyncTask task = new BookAsyncTask();
+                        task.execute(GOOGLE_BOOKS_URL);
+                    } else {
+                        Toast msgNoChar = Toast.makeText(getBaseContext(), noCharacter, Toast.LENGTH_LONG);
+                        msgNoChar.show();
+                        int len = str.length();
+                        Log.v("nocharacter", String.valueOf(len));
+                    }
+                }
+                else{
+                    Toast noNetwork = Toast.makeText(getBaseContext(), noInternet, Toast.LENGTH_LONG);
+                    noNetwork.show();
+                }
                 hideSoftKeyboard(BookActivity.this, v);
                 focuser.setFocusable(true);
                 focuser.setFocusableInTouchMode(true);
                 focuser.requestFocus();
                 deleteText.setVisibility(View.GONE);
-                BookAsyncTask task = new BookAsyncTask();
-                task.execute(GOOGLE_BOOKS_URL);
+
+
             }
         });
 
@@ -92,4 +114,13 @@ public class BookActivity extends AppCompatActivity {
             }
         }
     }
+
+    private boolean isNetworkAvailable(View.OnClickListener onClickListener) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
 }
